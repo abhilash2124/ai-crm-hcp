@@ -56,31 +56,3 @@ backend/venv/
 *.db
 node_modules/
 frontend/node_modules/
-
-.env
-backend/.env
-venv/
-backend/venv/
-node_modules/
-frontend/node_modules/
-*.db
-
-
-# Python
-venv/
-backend/venv/
-__pycache__/
-
-# Environment variables
-.env
-backend/.env
-
-# Node
-node_modules/
-frontend/node_modules/
-
-# Database
-*.db
-
-# OS
-.DS_Store
