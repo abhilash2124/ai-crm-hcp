@@ -136,3 +136,7 @@ Show interactions with Dr Kumar
 ## Author
 
 Abhilash Addagatla
+
+![Chat](./screenshots/chat.png)
+![History](./screenshots/history.png)
+![UI](./screenshots/ui.png)
