@@ -139,8 +139,4 @@ Abhilash Addagatla
 
 ![Chat](./screenshots/chat.png)
 ![History](./screenshots/history.png)
-<<<<<<< Updated upstream
 ![UI](./screenshots/ui.png)
-=======
-![UI](./screenshots/ui.png)
->>>>>>> Stashed changes
