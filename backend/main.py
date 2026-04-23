@@ -17,20 +17,54 @@ app.add_middleware(
 
 Base.metadata.create_all(bind=engine)
 
+
 class ChatRequest(BaseModel):
     message: str
 
+
+# ---------------- GUARDRAILS ---------------- #
+
+
+def validate_input(user_input: str):
+    blocked_keywords = ["delete all", "drop database", "remove everything", "wipe data"]
+
+    for keyword in blocked_keywords:
+        if keyword in user_input.lower():
+            return False, "❌ This action is not allowed."
+
+    return True, None
+
+
+def check_sensitive_action(user_input: str):
+    sensitive_words = ["delete", "remove", "update"]
+
+    for word in sensitive_words:
+        if word in user_input.lower():
+            return True
+    return False
+
+
 @app.post("/chat")
-def chat(request: ChatRequest):
+async def chat(request: ChatRequest):
 
     try:
-        result = app_graph.invoke({
-            "text": request.message
-        })
+        is_valid, error = validate_input(request.message)
 
+        print("User:", request.message)
+        if not is_valid:
+            return {"response": error}
+
+        if check_sensitive_action(request.message):
+            return {
+                "response": "⚠️ This action requires human confirmation. Please contact support."
+            }
+
+        result = app_graph.invoke({"text": request.message})
+        print("Response:", result)
         return {"response": result["result"]}
     except Exception as e:
         return {"error": str(e)}
+
 
 @app.get("/")
 def home():
