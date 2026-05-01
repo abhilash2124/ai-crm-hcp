@@ -33,23 +33,6 @@ Return JSON.
 
     data = json.loads(match.group())
 
-    db = SessionLocal()
-
-    try:
-
-        interaction = Interaction(
-            hcp_name=data.get("hcp_name"),
-            interaction_type="meeting",
-            topics=data.get("topic"),
-            sentiment=data.get("sentiment")
-        )
-
-        db.add(interaction)
-        db.commit()
-
-    finally:
-        db.close()
-
     return {"status": "stored", "data": data}
 
 
@@ -116,7 +99,7 @@ def get_interaction_history(text: str):
             results.append({
                 "id": i.id,
                 "hcp_name": i.hcp_name,
-                "topic": i.topics,
+                "topic": i.topic,
                 "sentiment": i.sentiment
             })
 
@@ -149,7 +132,7 @@ def summarize_interaction(text: str):
 Summarize this interaction in 2 sentences.
 
 Doctor: {interaction.hcp_name}
-Topic: {interaction.topics}
+Topic: {interaction.topic}
 Sentiment: {interaction.sentiment}
 """
 
@@ -182,7 +165,7 @@ def suggest_followup(text: str):
 Suggest a follow-up action for this doctor interaction.
 
 Doctor: {interaction.hcp_name}
-Topic: {interaction.topics}
+Topic: {interaction.topic}
 """
 
         response = llm.invoke(prompt)
