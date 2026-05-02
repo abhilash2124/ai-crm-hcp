@@ -22,19 +22,22 @@ function ChatPanel({ setInteractionData, setInteractions }) {
 
             setMessage("");
 
-            const response = res.data.response;
+            const data = res.data;
 
-            console.log("FINAL DATA:", response);
+            console.log("FINAL DATA:", data);
 
             let text = "";
 
-            if (response && response.hcp_name) {
-                setInteractionData(response);
-                setInteractions(prev => [...prev, response]);
+            if (data.type === "log" && data.data) {
+                const logData = data.data;
+                setInteractionData(logData);
+                setInteractions(prev => [...prev, logData]);
 
-                text = `Interaction logged for ${response.hcp_name}. Topic: ${response.topic}. Sentiment: ${response.sentiment}.`;
+                text = `Interaction logged for ${logData.hcp_name}. Topic: ${logData.topic}. Sentiment: ${logData.sentiment}.`;
+            } else if (data.type === "message" || data.type === "error") {
+                text = data.text;
             } else {
-                text = JSON.stringify(response);
+                text = JSON.stringify(data);
             }
 
             const aiMsg = {
