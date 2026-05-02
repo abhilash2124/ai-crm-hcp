@@ -3,7 +3,12 @@ import ChatAssistant from "../components/ChatPanel";
 import StatsCards from "../components/StatsCards";
 import InteractionHistory from "../components/InteractionHistory";
 
-export default function Dashboard({ interactionData, setInteractionData }) {
+export default function Dashboard({
+    interactionData = {},
+    setInteractionData = () => {},
+    interactions = [],
+    setInteractions = () => {},
+}) {
     return (
         <div className="p-6">
 
@@ -11,10 +16,13 @@ export default function Dashboard({ interactionData, setInteractionData }) {
 
             <div className="grid grid-cols-2 gap-6">
                 <InteractionForm data={interactionData} />
-                <ChatAssistant setInteractionData={setInteractionData} />
+                <ChatAssistant
+                    setInteractionData={setInteractionData}
+                    setInteractions={setInteractions}
+                />
             </div>
 
-            <InteractionHistory />
+            <InteractionHistory data={interactions} />
         </div>
     );
 }

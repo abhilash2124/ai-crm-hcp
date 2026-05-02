@@ -1,6 +1,6 @@
 import React from "react";
 
-function InteractionHistory({ data }) {
+function InteractionHistory({ data = [] }) {
     return (
         <table className="w-full text-left">
             <thead>
@@ -18,7 +18,7 @@ function InteractionHistory({ data }) {
                         <td>{d.hcp_name}</td>
                         <td>{d.topic}</td>
                         <td>{d.sentiment}</td>
-                        <td>{d.timestamp}</td>
+                        <td>{d.timestamp || `${d.date || ""} ${d.time || ""}`.trim() || "-"}</td>
                     </tr>
                 ))}
             </tbody>

@@ -95,10 +95,16 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
                 # Log Interaction
                 data = raw["data"]
                 now = datetime.now()
+                sentiment = data.get("sentiment", "neutral")
+                if isinstance(sentiment, str):
+                    sentiment = sentiment.strip().lower()
+                if sentiment not in ("positive", "negative", "neutral"):
+                    sentiment = "neutral"
+
                 clean_data = {
                     "hcp_name": data.get("hcp_name"),
                     "topic": data.get("topic"),
-                    "sentiment": data.get("sentiment", "neutral"),
+                    "sentiment": sentiment,
                     "date": now.strftime("%Y-%m-%d"),
                     "time": now.strftime("%H:%M:%S"),
                 }
@@ -136,6 +142,9 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
             elif "followup" in raw:
                 return {"type": "message", "text": raw["followup"]}
                 
+            elif "message" in raw:
+                return {"type": "message", "text": raw["message"]}
+                
             elif "status" in raw and raw["status"] == "updated":
                 return {"type": "message", "text": f"Interaction sentiment updated to: {raw['sentiment']}"}
                 
@@ -148,7 +157,7 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
     except Exception as e:
         db.rollback()
         print("🔥 ERROR:", str(e))
-        return {"type": "error", "text": str(e)}
+        return {"type": "message", "text": "Something went wrong"}
 
 
 @app.get("/")

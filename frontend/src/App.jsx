@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InteractionForm from "./components/InteractionForm";
 import ChatPanel from "./components/ChatPanel";
 import InteractionHistory from "./components/InteractionHistory";
@@ -19,9 +19,18 @@ function App() {
 
   const [interactions, setInteractions] = useState([]);
 
-  console.log(Sidebar);
-  console.log(Topbar);
-  console.log(InteractionHistory);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/interactions");
+        setInteractions(res.data);
+      } catch (error) {
+        console.error("Error fetching interactions", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -45,14 +54,14 @@ function App() {
           <div className="bg-white p-4 rounded-xl shadow">
             <h3 className="text-gray-500">Positive</h3>
             <p className="text-2xl font-bold text-green-500">
-              {interactions.filter(i => i.sentiment === "positive").length}
+              {interactions.filter(i => i.sentiment?.toLowerCase() === "positive").length}
             </p>
           </div>
 
           <div className="bg-white p-4 rounded-xl shadow">
             <h3 className="text-gray-500">Negative</h3>
             <p className="text-2xl font-bold text-red-500">
-              {interactions.filter(i => i.sentiment === "negative").length}
+              {interactions.filter(i => i.sentiment?.toLowerCase() === "negative").length}
             </p>
           </div>
 
@@ -85,8 +94,11 @@ function App() {
           <h2 className="mb-4 font-semibold text-lg">
             Interaction History
           </h2>
-          <InteractionHistory data={interactions} />
           <AnalyticsCharts interactions={interactions} />
+        </div>
+        <div className="bg-white p-5 rounded-xl shadow mt-6">
+          <InteractionHistory data={interactions} />
+
         </div>
 
       </div>

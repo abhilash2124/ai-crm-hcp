@@ -1,5 +1,4 @@
-function InteractionForm({ data }) {
-  console.log(data)
+function InteractionForm({ data = {} }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow">
       <div className="mb-4">

@@ -26,12 +26,21 @@ Return JSON.
 """
 
     response = llm.invoke(prompt)
-    content = response.content
+    content = getattr(response, "content", None)
+
+    if not content:
+        return {"error": "LLM response returned no content."}
 
     content = content.replace("```json", "").replace("```", "").strip()
     match = re.search(r"\{.*\}", content, re.DOTALL)
 
-    data = json.loads(match.group())
+    if not match:
+        return {"error": "Could not find JSON in AI response."}
+
+    try:
+        data = json.loads(match.group())
+    except json.JSONDecodeError:
+        return {"error": "Failed to parse JSON from AI response."}
 
     return {"status": "stored", "data": data}
 
@@ -160,6 +169,9 @@ def suggest_followup(text: str):
             .order_by(Interaction.id.desc())
             .first()
         )
+
+        if not interaction:
+            return {"message": "No interactions found"}
 
         prompt = f"""
 Suggest a follow-up action for this doctor interaction.

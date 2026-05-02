@@ -10,14 +10,14 @@ export default function StatsCards({ interactions }) {
             <div className="bg-white p-4 rounded-xl shadow">
                 <h3 className="text-sm text-gray-500">Positive Sentiment</h3>
                 <p className="text-2xl font-bold text-green-500">
-                    {interactions.filter(i => i.sentiment === "positive").length}
+                    {interactions.filter(i => i.sentiment?.toLowerCase() === "positive").length}
                 </p>
             </div>
 
             <div className="bg-white p-4 rounded-xl shadow">
                 <h3 className="text-sm text-gray-500">Negative Sentiment</h3>
                 <p className="text-2xl font-bold text-red-500">
-                    {interactions.filter(i => i.sentiment === "negative").length}
+                    {interactions.filter(i => i.sentiment?.toLowerCase() === "negative").length}
                 </p>
             </div>
 

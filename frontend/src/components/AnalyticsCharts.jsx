@@ -9,15 +9,15 @@ function AnalyticsCharts({ interactions }) {
     const sentimentData = [
         {
             name: "Positive",
-            value: interactions.filter(i => i.sentiment === "positive").length
+            value: interactions.filter(i => i.sentiment?.toLowerCase() === "positive").length
         },
         {
             name: "Neutral",
-            value: interactions.filter(i => i.sentiment === "neutral").length
+            value: interactions.filter(i => i.sentiment?.toLowerCase() === "neutral").length
         },
         {
             name: "Negative",
-            value: interactions.filter(i => i.sentiment === "negative").length
+            value: interactions.filter(i => i.sentiment?.toLowerCase() === "negative").length
         }
     ];
 

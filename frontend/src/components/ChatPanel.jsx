@@ -6,6 +6,14 @@ function ChatPanel({ setInteractionData, setInteractions }) {
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const normalizeSentiment = (item) => {
+        if (!item || typeof item !== "object") return item;
+        const sentiment = typeof item.sentiment === "string"
+            ? item.sentiment.trim().toLowerCase()
+            : item.sentiment;
+        return { ...item, sentiment };
+    };
+
     const sendMessage = async () => {
         if (!message) return;
 
@@ -16,28 +24,34 @@ function ChatPanel({ setInteractionData, setInteractions }) {
 
         try {
             const res = await axios.post(
-                "http://localhost:8000/chat",
+                `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/chat`,
                 { message }
             );
 
             setMessage("");
 
-            const data = res.data;
+            const response = res.data;
 
-            console.log("FINAL DATA:", data);
+            console.log("FINAL DATA:", response);
 
             let text = "";
 
-            if (data.type === "log" && data.data) {
-                const logData = data.data;
-                setInteractionData(logData);
-                setInteractions(prev => [...prev, logData]);
+            if (response && response.hcp_name) {
+                const normalized = normalizeSentiment(response);
+                setInteractionData(normalized);
+                setInteractions(prev => [...prev, normalized]);
 
-                text = `Interaction logged for ${logData.hcp_name}. Topic: ${logData.topic}. Sentiment: ${logData.sentiment}.`;
-            } else if (data.type === "message" || data.type === "error") {
-                text = data.text;
+                text = `Interaction logged for ${normalized.hcp_name || "HCP"}`;
+            } else if (response && response.type === "log" && response.data) {
+                const normalized = normalizeSentiment(response.data);
+                setInteractionData(normalized);
+                setInteractions(prev => [...prev, normalized]);
+
+                text = `Interaction logged for ${normalized.hcp_name || "HCP"}`;
+            } else if (response && (response.type === "message" || response.type === "error")) {
+                text = response.text;
             } else {
-                text = JSON.stringify(data);
+                text = response?.text ?? JSON.stringify(response);
             }
 
             const aiMsg = {
@@ -79,8 +93,8 @@ function ChatPanel({ setInteractionData, setInteractions }) {
                     >
                         <div
                             className={`px-3 py-2 rounded-lg max-w-xs ${m.sender === "User"
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-200 text-black"
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-200 text-black"
                                 }`}
                         >
                             {m.text}
