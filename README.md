@@ -1,107 +1,98 @@
-# AI-First CRM HCP Module
+# 🤖 AI CRM Assistant (HCP Interaction Logger)
 
-This project is an **AI-powered CRM module** designed for pharmaceutical field representatives to log interactions with Healthcare Professionals (HCPs) using **natural language input**.
-
-Instead of manually filling CRM fields, the user can simply describe an interaction. The AI assistant automatically extracts structured data and stores it in the CRM database.
+An AI-powered CRM system that allows users to log Healthcare Professional (HCP) interactions using natural language.
 
 ---
 
-## Tech Stack
+## 🚀 Overview
+
+This project helps pharmaceutical representatives log interactions with doctors simply by typing messages like:
+
+> "I met Dr Raju and discussed insulin and he was positive"
+
+The system automatically:
+
+* Extracts structured data
+* Stores it in database
+* Updates dashboard and analytics in real-time
+
+---
+
+## 🎯 Features
+
+* 💬 AI Chat-based interaction logging
+* 🧠 Automatic data extraction (HCP, topic, sentiment)
+* 📊 Dashboard with real-time stats
+* 📈 Analytics (charts for sentiment & topics)
+* 📋 Interaction history table
+* 🔍 Persistent data (PostgreSQL)
+
+---
+
+## 🏗️ Tech Stack
 
 ### Frontend
 
 * React
+* Tailwind CSS
 * Axios
-* Google Inter Font
+* Recharts
 
 ### Backend
 
-* Python
 * FastAPI
+* SQLAlchemy
+* Pydantic
+* Uvicorn
 
-### AI Agent Framework
+### AI
 
 * LangGraph
-
-### LLM
-
-* Groq API
-* Model: `llama-3.3-70b-versatile`
+* Groq LLM
 
 ### Database
 
-* SQLite used for development.
-System can easily migrate to PostgreSQL.
-For local testing SQLite is used. The schema is compatible with PostgreSQL
-for production deployment.
+* PostgreSQL (Production)
+* SQLite (Development)
 
 ---
 
-## System Architecture
+## ⚙️ Installation & Setup
 
-User → React Frontend → FastAPI `/chat` API → LangGraph Agent → Tool Execution → LLM Extraction → Database → Response to Frontend
+### 1️⃣ Clone repo
 
-The AI agent determines which tool to execute based on the user's natural language request.
-
----
-
-## LangGraph Tools
-
-### 1. Log Interaction
-
-Extracts HCP name, topic, and sentiment from natural language input and stores the interaction in the database.
-
-### 2. Edit Interaction
-
-Updates previously logged interaction fields using natural language commands.
-
-Example:
-
-Change sentiment to positive
-
-### 3. Get Interaction History
-
-Retrieves past interactions with a healthcare professional.
-
-### 4. Summarize Interaction
-
-Generates a summary of previous interactions.
-
-### 5. Suggest Follow-up
-
-Provides recommended next actions for the field representative.
+```bash
+git clone <your-repo-url>
+cd ai-crm-hcp
+```
 
 ---
 
-## Frontend Features
-
-* Split layout UI (Interaction Form + AI Assistant)
-* AI-driven form population
-* Chat interface for logging interactions
-* Sentiment detection
-* Interaction history retrieval
-
----
-
-## Running the Project
-
-### Backend
+### 2️⃣ Backend Setup
 
 ```bash
 cd backend
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
+```
+
+Create `.env` file:
+
+```env
+GROQ_API_KEY=your_api_key
+DATABASE_URL=your_postgres_url
+```
+
+Run backend:
+
+```bash
 uvicorn main:app --reload
-```
-
-Backend runs on:
-
-```
-http://localhost:8000
 ```
 
 ---
 
-### Frontend
+### 3️⃣ Frontend Setup
 
 ```bash
 cd frontend
@@ -109,34 +100,70 @@ npm install
 npm start
 ```
 
-Frontend runs on:
+---
 
-```
-http://localhost:3000
-```
+## 🔄 How It Works
+
+1. User types interaction in chat
+2. Frontend sends request to FastAPI
+3. AI extracts structured data
+4. Backend stores data in database
+5. UI updates automatically:
+
+   * Dashboard
+   * Charts
+   * History table
 
 ---
 
-## Example Commands
-
-```
-Met Dr Kumar and discussed insulin
-```
-
-```
-Change sentiment to positive
-```
-
-```
-Show interactions with Dr Kumar
-```
+## 📊 Screenshot
+![Dashboard](./screenshots/dashboard.png)
 
 ---
 
-## Author
+## 📌 Example Input
+
+```
+I met Dr Meena and discussed diabetes and she was negative
+```
+
+### Output:
+
+* HCP Name: Dr Meena
+* Topic: Diabetes
+* Sentiment: Negative
+
+---
+
+## ⚠️ Challenges & Solutions
+
+* AI returning inconsistent JSON → handled with parsing logic
+* Data flow mismatch → standardized response format
+* Duplicate DB writes → centralized insertion in backend
+* Routing issues → fixed using React Router
+
+---
+
+## 🔮 Future Improvements
+
+* Authentication system
+* Better AI intent classification
+* Editable interaction form
+* Pagination & filters
+* Deployment (Docker + Cloud)
+
+---
+
+## 👨‍💻 Author
 
 Abhilash Addagatla
+B.Tech CSE (AIML)
+Warangal, Telangana
 
-![Chat](./screenshots/chat.png)
-![History](./screenshots/history.png)
-![UI](./screenshots/ui.png)
+---
+
+## ⭐ If you like this project
+
+Give it a ⭐ on GitHub!
+
+![Architecture](./screenshots/Architecture.png)

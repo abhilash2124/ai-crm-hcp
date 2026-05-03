@@ -3,7 +3,13 @@ import axios from "axios";
 
 function ChatPanel({ setInteractionData, setInteractions }) {
     const [message, setMessage] = useState("");
-    const [chat, setChat] = useState([]);
+    // const [chat, setChat] = useState([]);
+    const [chat, setChat] = useState([
+        {
+            sender: "Ai",
+            text: "Hi 👋 I can help you log HCP interactions.\nTry something like:\n'I met Dr Raju and discussed insulin and he was positive.'"
+        }
+    ]);
     const [loading, setLoading] = useState(false);
 
     const normalizeSentiment = (item) => {
@@ -75,8 +81,17 @@ function ChatPanel({ setInteractionData, setInteractions }) {
         setLoading(false);
     };
 
+    const suggestions = [
+        "I met Dr Raju and discussed insulin",
+        "Met Dr Abhi about cardiology drug and he was positive",
+        "Show my interaction history",
+        "Give summary of interactions",
+        "I met Dr Meena and discussed diabetes and she was negative",
+        "Give follow-up suggestions based on recent interactions"
+    ];
+
     return (
-        <div className="bg-white p-4 rounded-xl shadow h-[500px] flex flex-col">
+        <div className="bg-white p-4 rounded-xl shadow min-h-[300px] flex flex-col">
 
             <h2 className="text-lg font-semibold mb-2">🤖 AI Assistant</h2>
             <p className="text-sm text-gray-500 mb-2">
@@ -92,8 +107,8 @@ function ChatPanel({ setInteractionData, setInteractions }) {
                             }`}
                     >
                         <div
-                            className={`px-3 py-2 rounded-lg max-w-xs ${m.sender === "User"
-                                ? "bg-blue-500 text-white"
+                            className={`px-4 py-2 rounded-lg max-w-xs text-sm ${m.sender === "User"
+                                ? "bg-blue-500 text-white ml-auto"
                                 : "bg-gray-200 text-black"
                                 }`}
                         >
@@ -107,21 +122,35 @@ function ChatPanel({ setInteractionData, setInteractions }) {
             {loading && <p className="text-sm">AI is thinking...</p>}
 
             <div className="flex mt-3 gap-2">
-
                 <input
-                    className="flex-1 border rounded px-3 py-2"
+                    className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Describe interaction..."
+                    placeholder="Describe your interaction..."
                 />
 
                 <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
                     onClick={sendMessage}
                 >
                     Send
                 </button>
+            </div>
 
+            <div className="flex flex-wrap gap-2 mt-3">
+                {suggestions.map((s, i) => (
+                    <button
+                        key={i}
+                        // onClick={() => setMessage(s)}
+                        onClick={() => {
+                            setMessage(s);
+                            setTimeout(() => sendMessage(), 200);
+                        }}
+                        className="text-sm bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+                    >
+                        {s}
+                    </button>
+                ))}
             </div>
 
         </div>
