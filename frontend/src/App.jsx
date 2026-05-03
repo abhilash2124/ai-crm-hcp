@@ -8,6 +8,10 @@ import Interactions from "./pages/Interactions";
 import Analytics from "./pages/Analytics";
 
 function App() {
+
+  // const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || "https://ai-crm-hcp-pkzn.onrender.com";
+
   const [interactionData, setInteractionData] = useState({
     hcp_name: "",
     topic: "",
@@ -21,7 +25,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/interactions");
+        console.log("API URL:", API_URL);
+        const res = await axios.get(`${API_URL}/interactions`);
         setInteractions(res.data);
       } catch (error) {
         console.error("Error fetching interactions", error);

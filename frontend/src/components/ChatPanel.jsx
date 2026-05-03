@@ -20,6 +20,9 @@ function ChatPanel({ setInteractionData, setInteractions }) {
         return { ...item, sentiment };
     };
 
+    // const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = process.env.REACT_APP_API_URL || "https://ai-crm-hcp-pkzn.onrender.com";
+
     const sendMessage = async () => {
         if (!message) return;
 
@@ -29,8 +32,9 @@ function ChatPanel({ setInteractionData, setInteractions }) {
         setChat(prev => [...prev, userMsg]);
 
         try {
+
             const res = await axios.post(
-                `${process.env.REACT_APP_API_URL || "http://localhost:8000"}/chat`,
+                `${API_URL}/chat`,
                 { message }
             );
 
