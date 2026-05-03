@@ -33,7 +33,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [API_URL]);
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
