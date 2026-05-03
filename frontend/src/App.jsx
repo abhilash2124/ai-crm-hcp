@@ -7,10 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import Interactions from "./pages/Interactions";
 import Analytics from "./pages/Analytics";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-
 function App() {
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
   const [interactionData, setInteractionData] = useState({
     hcp_name: "",
