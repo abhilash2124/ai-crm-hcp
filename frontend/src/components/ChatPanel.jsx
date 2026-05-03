@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function ChatPanel({ setInteractionData, setInteractions }) {
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
     const [message, setMessage] = useState("");
     // const [chat, setChat] = useState([]);
     const [chat, setChat] = useState([
@@ -21,7 +23,6 @@ function ChatPanel({ setInteractionData, setInteractions }) {
     };
 
     // const API_URL = import.meta.env.VITE_API_URL;
-    const API_URL = process.env.REACT_APP_API_URL || "https://ai-crm-hcp-pkzn.onrender.com";
 
     const sendMessage = async () => {
         if (!message) return;
@@ -37,8 +38,8 @@ function ChatPanel({ setInteractionData, setInteractions }) {
                 `${API_URL}/chat`,
                 { message }
             );
+            // const res = await axios.post(`${import.meta.env.VITE_API_URL}/chat`);
 
-            setMessage("");
 
             const response = res.data;
 
@@ -82,6 +83,7 @@ function ChatPanel({ setInteractionData, setInteractions }) {
             setChat(prev => [...prev, errMsg]);
         }
 
+        setMessage("");
         setLoading(false);
     };
 

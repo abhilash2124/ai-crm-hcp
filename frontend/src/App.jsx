@@ -9,8 +9,7 @@ import Analytics from "./pages/Analytics";
 
 function App() {
 
-  // const API_URL = import.meta.env.VITE_API_URL;
-  const API_URL = process.env.REACT_APP_API_URL || "https://ai-crm-hcp-pkzn.onrender.com";
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
   const [interactionData, setInteractionData] = useState({
     hcp_name: "",
@@ -25,7 +24,6 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("API URL:", API_URL);
         const res = await axios.get(`${API_URL}/interactions`);
         setInteractions(res.data);
       } catch (error) {
@@ -34,7 +32,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [API_URL]);
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
