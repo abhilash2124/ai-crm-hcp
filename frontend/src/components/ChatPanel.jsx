@@ -88,11 +88,11 @@ function ChatPanel({ setInteractionData, setInteractions }) {
     };
 
     const suggestions = [
-        "I met Dr Raju and discussed insulin",
-        "Met Dr Abhi about cardiology drug and he was positive",
+        "I met Dr Raju and discussed Aspirin",
+        "Met Dr Abhi about Codeine and he was positive",
         "Show my interaction history",
         "Give summary of interactions",
-        "I met Dr Meena and discussed diabetes and she was negative",
+        "I met Dr Meena and discussed Digoxin and she was negative",
         "Give follow-up suggestions based on recent interactions"
     ];
 

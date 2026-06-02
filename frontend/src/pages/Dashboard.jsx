@@ -3,6 +3,8 @@ import ChatAssistant from "../components/ChatPanel";
 import StatsCards from "../components/StatsCards";
 import InteractionHistory from "../components/InteractionHistory";
 import AnalyticsCharts from "../components/AnalyticsCharts";
+import DoctorIntelligenceCard from "../components/DoctorIntelligenceCard";
+
 
 export default function Dashboard({
     interactionData = {},
@@ -23,9 +25,21 @@ export default function Dashboard({
                 />
             </div>
 
-            <div className="grid grid-cols-1 gap-6">
+            {/* <div className="grid grid-cols-1 gap-6">
                 <AnalyticsCharts interactions={interactions} />
                 <InteractionHistory data={interactions} />
+            </div> */}
+            <div className="grid grid-cols-1 gap-6">
+
+                <DoctorIntelligenceCard
+                    interactionData={interactionData}
+                    interactions={interactions}
+                />
+
+                <AnalyticsCharts interactions={interactions} />
+
+                <InteractionHistory data={interactions} />
+
             </div>
         </div>
     );

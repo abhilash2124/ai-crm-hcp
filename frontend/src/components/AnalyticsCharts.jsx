@@ -1,4 +1,5 @@
 import {
+    ResponsiveContainer,
     PieChart, Pie, Cell, Tooltip,
     BarChart, Bar, XAxis, YAxis, CartesianGrid
 } from "recharts";
@@ -35,39 +36,45 @@ function AnalyticsCharts({ interactions }) {
     const COLORS = ["#22c55e", "#3b82f6", "#ef4444"];
 
     return (
-        <div className="grid grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
             {/* Sentiment Pie */}
-            <div className="bg-white p-4 rounded-xl shadow">
-                <h3 className="mb-3 font-semibold">Sentiment Distribution</h3>
-
-                <PieChart width={300} height={250}>
-                    <Pie
-                        data={sentimentData}
-                        dataKey="value"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                    >
-                        {sentimentData.map((entry, index) => (
-                            <Cell key={index} fill={COLORS[index]} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
+            <div className="bg-white p-4 rounded-xl shadow flex flex-col items-center">
+                <h3 className="mb-3 font-semibold self-start">Sentiment Distribution</h3>
+                <div className="w-full h-[250px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Pie
+                                data={sentimentData}
+                                dataKey="value"
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={80}
+                            >
+                                {sentimentData.map((entry, index) => (
+                                    <Cell key={index} fill={COLORS[index]} />
+                                ))}
+                            </Pie>
+                            <Tooltip />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
 
             {/* Topic Bar */}
             <div className="bg-white p-4 rounded-xl shadow">
                 <h3 className="mb-3 font-semibold">Topics Discussed</h3>
-
-                <BarChart width={350} height={250} data={topicData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="topic" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#3b82f6" />
-                </BarChart>
+                <div className="w-full h-[240px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={topicData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="topic" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="count" fill="#296fdfff" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
 
         </div>
