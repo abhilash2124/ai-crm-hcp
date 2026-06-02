@@ -54,7 +54,7 @@ export default function DoctorIntelligenceCard({
     return (
         <div className="bg-white p-5 rounded-xl shadow">
             <h2 className="text-xl font-semibold mb-4">
-                🧠 Doctor Intelligence
+                Doctor Insights
             </h2>
 
             <div className="space-y-2">

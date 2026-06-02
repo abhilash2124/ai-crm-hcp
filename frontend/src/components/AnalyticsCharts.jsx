@@ -1,6 +1,6 @@
 import {
     ResponsiveContainer,
-    PieChart, Pie, Cell, Tooltip,
+    PieChart, Pie, Cell, Tooltip, Legend,
     BarChart, Bar, XAxis, YAxis, CartesianGrid
 } from "recharts";
 
@@ -43,35 +43,36 @@ function AnalyticsCharts({ interactions }) {
                 <h3 className="mb-3 font-semibold self-start">Sentiment Distribution</h3>
                 <div className="w-full h-[250px]">
                     <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
+                        <PieChart margin={{ top: 0, right: 0, bottom: 5, left: 0 }}>
                             <Pie
                                 data={sentimentData}
                                 dataKey="value"
                                 cx="50%"
-                                cy="50%"
-                                outerRadius={80}
+                                cy="45%"
+                                outerRadius={75}
                             >
                                 {sentimentData.map((entry, index) => (
                                     <Cell key={index} fill={COLORS[index]} />
                                 ))}
                             </Pie>
                             <Tooltip />
+                            <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '12px' }} />
                         </PieChart>
                     </ResponsiveContainer>
                 </div>
             </div>
 
             {/* Topic Bar */}
-            <div className="bg-white p-4 rounded-xl shadow">
+            <div className="bg-white p-3 rounded-xl shadow">
                 <h3 className="mb-3 font-semibold">Topics Discussed</h3>
-                <div className="w-full h-[240px]">
+                <div className="w-full h-[200px]">
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={topicData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="topic" />
-                            <YAxis />
+                        <BarChart data={topicData} margin={{ top: 5, right: 10, bottom: 5, left: -25 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="topic" tick={{ fontSize: 11 }} />
+                            <YAxis tick={{ fontSize: 11 }} />
                             <Tooltip />
-                            <Bar dataKey="count" fill="#296fdfff" />
+                            <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>

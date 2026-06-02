@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Send } from "lucide-react";
 
 function ChatPanel({ setInteractionData, setInteractions }) {
     const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
@@ -127,19 +128,22 @@ function ChatPanel({ setInteractionData, setInteractions }) {
 
             {loading && <p className="text-sm">AI is thinking...</p>}
 
-            <div className="flex mt-3 gap-2">
+            <div className="flex mt-3 gap-2 items-center">
                 <input
-                    className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="flex-1 min-w-0 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Describe your interaction..."
                 />
 
                 <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
+                    className="bg-blue-600 hover:bg-blue-700 text-white p-2.5 sm:px-5 sm:py-2 rounded-lg flex items-center justify-center shrink-0 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                     onClick={sendMessage}
+                    aria-label="Send message"
+                    title="Send"
                 >
-                    Send
+                    <Send size={18} />
+                    <span className="hidden sm:inline sm:ml-2 font-medium text-sm">Send</span>
                 </button>
             </div>
 

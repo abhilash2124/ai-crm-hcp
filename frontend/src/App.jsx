@@ -11,6 +11,7 @@ import Doctors from "./pages/Doctors";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [interactionData, setInteractionData] = useState({
     hcp_name: "",
@@ -38,9 +39,9 @@ function App() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 p-4 sm:p-6">
-        <Topbar />
+        <Topbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <Routes>
           <Route
             path="/"
