@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Interactions from "./pages/Interactions";
 import Analytics from "./pages/Analytics";
+import Doctors from "./pages/Doctors";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
@@ -55,6 +56,12 @@ function App() {
           <Route
             path="/interactions"
             element={<Interactions interactions={interactions} />}
+          />
+          <Route
+            path="/doctors"
+            element={
+              <Doctors interactions={interactions} />
+            }
           />
           <Route
             path="/analytics"

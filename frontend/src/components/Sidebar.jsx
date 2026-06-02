@@ -8,6 +8,7 @@ function Sidebar() {
             <ul className="space-y-3">
                 <li><Link to="/">Dashboard</Link></li>
                 <li><Link to="/interactions">Interactions</Link></li>
+                <li><Link to="/doctors">Doctors</Link></li>
                 <li><Link to="/analytics">Analytics</Link></li>
             </ul>
         </div>

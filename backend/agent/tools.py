@@ -6,12 +6,13 @@ from database import SessionLocal
 from models.interaction import Interaction
 from agent.llm import llm
 
+
 @tool
 def log_interaction(text: str):
     """
     Extract interaction details from natural language and store them in the CRM database.
     """
-    
+
     prompt = f"""
 Extract the following fields from the interaction text.
 
@@ -55,12 +56,7 @@ def edit_interaction(text: str):
     db = SessionLocal()
 
     try:
-
-        interaction = (
-            db.query(Interaction)
-            .order_by(Interaction.id.desc())
-            .first()
-        )
+        interaction = db.query(Interaction).order_by(Interaction.id.desc()).first()
 
         if not interaction:
             return {"error": "No interaction found"}
@@ -81,13 +77,11 @@ def edit_interaction(text: str):
 
         db.commit()
 
-        return {
-            "status": "updated",
-            "sentiment": interaction.sentiment
-        }
+        return {"status": "updated", "sentiment": interaction.sentiment}
 
     finally:
         db.close()
+
 
 @tool
 def get_interaction_history(text: str):
@@ -98,19 +92,19 @@ def get_interaction_history(text: str):
     db = SessionLocal()
 
     try:
-
         interactions = db.query(Interaction).all()
 
         results = []
 
         for i in interactions:
-
-            results.append({
-                "id": i.id,
-                "hcp_name": i.hcp_name,
-                "topic": i.topic,
-                "sentiment": i.sentiment
-            })
+            results.append(
+                {
+                    "id": i.id,
+                    "hcp_name": i.hcp_name,
+                    "topic": i.topic,
+                    "sentiment": i.sentiment,
+                }
+            )
 
         return {"history": results}
 
@@ -127,12 +121,7 @@ def summarize_interaction(text: str):
     db = SessionLocal()
 
     try:
-
-        interaction = (
-            db.query(Interaction)
-            .order_by(Interaction.id.desc())
-            .first()
-        )
+        interaction = db.query(Interaction).order_by(Interaction.id.desc()).first()
 
         if not interaction:
             return {"error": "No interaction found"}
@@ -153,7 +142,6 @@ Sentiment: {interaction.sentiment}
         db.close()
 
 
-
 @tool
 def suggest_followup(text: str):
     """
@@ -163,12 +151,7 @@ def suggest_followup(text: str):
     db = SessionLocal()
 
     try:
-
-        interaction = (
-            db.query(Interaction)
-            .order_by(Interaction.id.desc())
-            .first()
-        )
+        interaction = db.query(Interaction).order_by(Interaction.id.desc()).first()
 
         if not interaction:
             return {"message": "No interactions found"}
@@ -186,4 +169,3 @@ Topic: {interaction.topic}
 
     finally:
         db.close()
-
